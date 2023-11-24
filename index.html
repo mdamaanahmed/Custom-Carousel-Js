@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <title>Carousel || Amaan Ansari</title>
+  </head>
+
+  <style>
+    *,
+    *::after,
+    *::before {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .carousel {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+    }
+    .carousel > ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 500ms ease-out;
+    }
+    .slide[data-active] {
+      opacity: 1;
+    }
+    .slide > img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .carousel-button {
+      height: 50px;
+      width: 50px;
+      font-size: 30px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #cbcbcb6e;
+      z-index: 1;
+      border: none;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    .carousel-button > i {
+      padding-top: 1px;
+    }
+    .prev {
+      left: 1rem;
+    }
+    .next {
+      right: 1rem;
+    }
+  </style>
+
+  <body>
+    <section>
+      <div class="carousel" data-carousel>
+        <button class="carousel-button prev" data-carousel-button="prev">
+          <i class="bi bi-arrow-left"></i>
+        </button>
+        <button class="carousel-button next" data-carousel-button="next">
+          <i class="bi bi-arrow-right"></i>
+        </button>
+        <ul data-slides>
+          <li class="slide" data-active>
+            <img src="./slide-1.jpg" alt="#1 slide image" />
+          </li>
+          <li class="slide">
+            <img src="./slide-2.jpg" alt="#2 slide image" />
+          </li>
+          <li class="slide">
+            <img src="./slide-3.jpg" alt="#3 slide image" />
+          </li>
+          <li class="slide">
+            <img src="./slide-4.jpg" alt="#4 slide image" />
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <script>
+      const buttons = document.querySelectorAll("[data-carousel-button]");
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const offset = button.dataset.carouselButton === "next" ? 1 : -1;
+          const slides = button
+            .closest("[data-carousel]")
+            .querySelector("[data-slides]");
+
+          const acriveSlides = slides.querySelector("[data-active]");
+          let newIndex = [...slides.children].indexOf(acriveSlides) + offset;
+
+          if (newIndex < 0) newIndex = slides.children.length - 1;
+          if (newIndex >= slides.children.length) newIndex = 0;
+
+          slides.children[newIndex].dataset.active = true;
+          delete acriveSlides.dataset.active;
+        });
+      });
+    </script>
+  </body>
+</html>
